@@ -2,6 +2,7 @@ function $(selector, container) {
     return (container || document).querySelector(selector);
 }
 
+
 (function(){
     var _ = self.Life = function(seed){
         this.seed = seed;
