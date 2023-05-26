@@ -9,7 +9,8 @@ From there, lots a tweeks went in to making the game nice and pretty.
 
 ## What is Conway's Game of Life?
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HeQX2HjkcNo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+### Veratassium Explanation of Conway's Game of Life:
+[![Math's Fundamental Flaw](https://img.youtube.com/vi/HeQX2HjkcNo/maxresdefault.jpg)](https://youtu.be/HeQX2HjkcNo)
 
 ## Functionality Available
 
