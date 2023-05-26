@@ -23,11 +23,11 @@ class Life {
                         break;
                     // Three Neighbors, the cell comes alive if it's dead or just stays alive
                     case 3:
-                        this.grid[column][row] = 1;
+                        this.grid[row][column] = 1;
                         break;
                     // Any other scenario puts the cell to death
                     default:
-                        this.grid[column][row] = 0;
+                        this.grid[row][column] = 0;
                         break;
                 }
             }
