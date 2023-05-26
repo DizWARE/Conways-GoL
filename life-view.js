@@ -16,13 +16,15 @@ class LifeView {
     }
 
     constructor(grid, width, height) {
-        this.grid = grid;
-        this.width = width;
-        this.height = height;
         this.autoplay = true;
-        this.mouseDownState = null;
+        this.checkboxes = [];
+        this.height = height;
         this.iterationSpeed = 300;
         this.iterationLabel = $("span.iteration-count");
+        this.grid = grid;
+        this.mouseDownState = null;
+        this.previousStartingState = [];
+        this.width = width;
         this._debug = false;
 
         this.createGrid();
@@ -46,7 +48,6 @@ class LifeView {
     createGrid() {
         const fragment = document.createDocumentFragment();
         this.grid.innerHTML = "";
-        this.checkboxes = [];
 
         for (let row = 0; row < this.height; row++) {
             const rowElement = this.createGridRow(row);
@@ -131,7 +132,7 @@ class LifeView {
         }
     }
 
-    handleMouseUp = (event) => {
+    handleMouseUp = () => {
         this.mouseDownState = null;
     }
 
