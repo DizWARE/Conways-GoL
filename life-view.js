@@ -23,7 +23,7 @@ class LifeView {
         this.iterationLabel = $("span.iteration-count");
         this.grid = grid;
         this.mouseDownState = null;
-        this.previousStartingState = [];
+        this.previousStartingState = null;
         this.width = width;
         this._debug = false;
 
