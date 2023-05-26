@@ -135,8 +135,10 @@
                 speedLabel.textContent = `${(view.iterationSpeed / 1000).toFixed(2)} second(s) / iteration`;
 
                 if (view.game) {
+                    const previousStartingState = view.previousStartingState;
                     view.stop();
                     view.next();
+                    view.previousStartingState = previousStartingState;
                 }
             });
         })();
