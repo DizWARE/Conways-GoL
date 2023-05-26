@@ -83,12 +83,19 @@
             buttons.resize.addEventListener("click", () => {
                 if (view.autoplay) {
                     buttons.next.textContent = "Start";
+                    speedLabel.textContent = `${(view.iterationSpeed / 1000).toFixed(2)} seconds(s) / iteration`;
                 }
 
                 view.dispose();
                 delete view;
 
-                view = new LifeView($("div.grid"), inputs.width.value, inputs.height.value)
+                view = new LifeView($("div.grid"), inputs.width.value, inputs.height.value);
+
+                // TODO - Currently, the code is all over the place with pulling state from DOM. 
+                // Should unify the different usages so that its consistent.
+                view.iterationSpeed = 1000 - inputs.iterationSpeed.value;
+                view.autoplay = inputs.autoplay.checked;
+                view.debug = inputs.autoplay.debug;
             })
 
             buttons.next.addEventListener("click", () => {
