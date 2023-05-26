@@ -1,197 +1,83 @@
-function $(selector, container) {
-    return (container || document).querySelector(selector);
-}
+
 
 class Life {
-    constructor(seed) {
-        this.seed = seed;
-        this.height = seed.length;
-        this.width = seed[0].length;
+    constructor(startingGrid, debug = false) {
+        this.startingGrid = startingGrid;
+        this.height = startingGrid.length;
+        this.width = startingGrid[0].length;
 
-        this.prevBoard = [];
-        this.board = cloneArray(seed);
+        this.prevGrid = [];
+        this.grid = cloneArray(startingGrid);
+        this._next = this.next;
+
+        this.debug = debug;
+    }
+
+    aliveNeighbors(grid, cellColumn, cellRow) {
+        let aliveCount = 0;
+
+        for (let neighborColumn = cellColumn - 1; neighborColumn < cellColumn + 2; neighborColumn++) {
+            // Skip out of bound neighbors
+            if (neighborColumn < 0 || neighborColumn >= this.width) continue;
+
+            for (let neighborRow = cellRow - 1; neighborRow < cellRow + 2; neighborRow++) {
+                // Skip out of bound neighbors
+                if (neighborRow < 0 || neighborRow >= this.width) continue;
+                // Skip the location of our cell.
+                if (neighborColumn === cellColumn && neighborRow === cellRow) continue;
+
+                // Is there a way that we can make the edges wrap(see demonstaration)
+
+                const neighborToCheck = grid[neighborColumn][neighborRow];
+                aliveCount += neighborToCheck;
+            }
+        }
+        return aliveCount;
     }
 
     next() {
-        this.prevBoard = cloneArray(this.board);
+        this.prevGrid = cloneArray(this.grid);
 
-        for (let y = 0; y < this.height; y++) {
-            for (let x = 0; x < this.width; x++) {
-                const aliveCount = this.aliveNeighbors(this.prevBoard, x, y);
+        for (let row = 0; row < this.height; row++) {
+            for (let column = 0; column < this.width; column++) {
+                const aliveCount = this.aliveNeighbors(this.prevGrid, column, row);
 
+                // RULES OF GAME OF LIFE
+                // 1) A single cell will become alive if 3 neigbors are alive
+                // 2) A single cell will die if less than 2 neighbors or more than 3 neighbors are alive
+
+                // Using what we know lets program what changes to the cell at column and row need to be.
                 switch (aliveCount) {
-                    // Two Neighbors, there is no change to its state
-                    case 2:
-                        break;
-                    // Three Neighbors, the cell comes alive if it's dead or just stays alive
-                    case 3:
-                        this.board[y][x] = 1;
-                        break;
-                    // Any other scenario puts the cell to death
                     default:
-                        this.board[y][x] = 0;
                         break;
                 }
             }
         }
     }
 
-    aliveNeighbors(array, x, y) {
-        let aliveCount = 0;
-        for (let yPrime = y - 1; yPrime < y + 2; yPrime++) {
-            if (!array[yPrime]) continue;
+    reset() {
+        this.grid = cloneArray(this.startingGrid);
+    }
 
-            for (let xPrime = x - 1; xPrime < x + 2; xPrime++) {
-                if (yPrime === y && xPrime === x) continue;
-                aliveCount += +!!array[yPrime][xPrime];
+    /** IGNORE EVERYTHING BELOW HERE. This allows us to print a representation of the grid to the console if enabled */
+    set debug(debug) {
+        this.toggleDebugLogs(debug);
+    }
+
+    toggleDebugLogs(debug) {
+        if (debug) {
+            const next = this.next.bind(this);
+            this.next = () => {
+                console.log(`Before next step update:\n${this.toString()}`);
+                next();
+                console.log(`After next step update:\n${this.toString()}`);
             }
+        } else {
+            this.next = this._next.bind(this);
         }
-        return aliveCount;
     }
 
     toString() {
-        return this.board.map((row) => row.join(' ')).join('\n');
+        return this.grid.map((row) => row.join(" ")).join("\n");
     }
 }
-
-// Helpers
-// Warning: Only clones 2D arrays
-function cloneArray(array) {
-    return array.map((row) => [...row]);
-}
-
-class LifeView {
-    get boardArray() {
-        return this.checkboxes.map((row) => row.map((checkbox) => +checkbox.checked));
-    }
-
-    constructor(table, width, height) {
-        this.grid = table;
-        this.width = width;
-        this.height = height;
-        this.started = false;
-        this.autoplay = true;
-
-        this.createGrid();
-    }
-
-    createGrid() {
-        const fragment = document.createDocumentFragment();
-        this.grid.innerHTML = '';
-        this.checkboxes = [];
-
-        for (let row = 0; row < this.height; row++) {
-            const rowElement = document.createElement('tr');
-            this.checkboxes[row] = [];
-
-            for (let column = 0; column < this.width; column++) {
-                const cell = document.createElement('td');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.location = { row, column };
-                this.checkboxes[row][column] = checkbox;
-
-                cell.appendChild(checkbox);
-                rowElement.appendChild(cell);
-            }
-            fragment.appendChild(rowElement);
-        }
-
-        let isMouseDown = false;
-        this.grid.addEventListener('mousedown', () => {
-            isMouseDown = true;
-        });
-
-        this.grid.addEventListener('mouseup', () => {
-            isMouseDown = false;
-        });
-
-        this.grid.addEventListener('mouseover', (event) => {
-            const checkbox = event.target;
-
-            if (checkbox.nodeName.toLowerCase() === 'input' && isMouseDown) {
-                checkbox.checked = true;
-                this.started = false;
-            }
-        });
-
-        this.grid.addEventListener('change', (evt) => {
-            if (evt.target.nodeType === 'input') {
-                this.started = false;
-            }
-        });
-        this.grid.appendChild(fragment);
-    }
-    stop() {
-        this.started = false;
-        clearInterval(this.interval);
-    }
-
-    play() {
-        this.game = new Life(this.boardArray);
-        this.started = true;
-
-        if (this.autoplay) {
-            clearInterval(this.interval);
-            this.interval = setInterval(() => this.next(), 300);
-        }
-    }
-
-    next() {
-        if (!this.started || !this.game) {
-            this.play();
-        }
-
-        this.game.next();
-
-        const board = this.game.board;
-
-        for (let row = 0; row < this.height; row++) {
-            for (let column = 0; column < this.width; column++) {
-                this.checkboxes[row][column].checked = Boolean(board[row][column]);
-            }
-        }
-    }
-
-    clear() {
-        for (let row = 0; row < this.height; row++) {
-            for (let column = 0; column < this.width; column++) {
-                this.checkboxes[row][column].checked = false;
-            }
-        }
-
-        this.play();
-    }
-}
-
-const view = new LifeView($(".grid"), 150, 150);
-
-(function () {
-    const buttons = {
-        next: $('button.next'),
-        clear: $('button.clear'),
-    };
-
-    buttons.next.addEventListener('click', () => {
-        if (view.autoplay) {
-            buttons.next.textContent = view.started ? "Start" : "Stop";
-        }
-
-        if (view.started && view.autoplay) {
-            view.stop();
-            return;
-        }
-
-        view.next();
-    });
-
-    buttons.clear.addEventListener('click', () => {
-        view.clear();
-    });
-
-    $('input.autoplay').addEventListener('change', function () {
-        view.stop();
-        buttons.next.textContent = this.checked ? 'Start' : 'Next';
-        view.autoplay = this.checked;
-    });
-})();
