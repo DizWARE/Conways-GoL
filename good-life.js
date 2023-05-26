@@ -13,8 +13,8 @@ class Life {
     next() {
         this.prevGrid = cloneArray(this.grid);
 
-        for (let column = 0; column < this.height; column++) {
-            for (let row = 0; row < this.width; row++) {
+        for (let row = 0; row < this.height; row++) {
+            for (let column = 0; column < this.width; column++) {
                 const aliveCount = this.aliveNeighbors(this.prevGrid, column, row);
 
                 switch (aliveCount) {
@@ -36,12 +36,12 @@ class Life {
 
     aliveNeighbors(array, cellColumn, cellRow) {
         let aliveCount = 0;
-        for (let columnPrime = cellRow - 1; columnPrime < cellRow + 2; columnPrime++) {
-            for (let rowPrime = cellColumn - 1; rowPrime < cellColumn + 2; rowPrime++) {
-                if (columnPrime === cellRow && rowPrime === cellColumn) continue;
+        for (let rowPrime = cellRow - 1; rowPrime < cellRow + 2; rowPrime++) {
+            for (let columnPrime = cellColumn - 1; columnPrime < cellColumn + 2; columnPrime++) {
+                if (rowPrime === cellRow && columnPrime === cellColumn) continue;
 
-                const row = columnPrime < 0 ? this.height - 1 : columnPrime >= this.height ? 0 : columnPrime;
-                const column = rowPrime < 0 ? this.width - 1 : rowPrime >= this.width ? 0 : rowPrime
+                const row = rowPrime < 0 ? this.height - 1 : rowPrime >= this.height ? 0 : rowPrime;
+                const column = columnPrime < 0 ? this.width - 1 : columnPrime >= this.width ? 0 : columnPrime
 
                 aliveCount += +!!array[row][column];
             }
