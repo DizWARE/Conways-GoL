@@ -48,16 +48,7 @@ class Life {
 
                 // Using what we know lets program what changes to the cell at column and row need to be.
                 switch (aliveCount) {
-                    // Two Neighbors, there is no change to its state
-                    case 2:
-                        break;
-                    // Three Neighbors, the cell comes alive if it's dead or just stays alive
-                    case 3:
-                        this.grid[column][row] = 1;
-                        break;
-                    // Any other scenario puts the cell to death
                     default:
-                        this.grid[column][row] = 0;
                         break;
                 }
             }
