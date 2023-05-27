@@ -114,6 +114,7 @@ class LifeView {
         this.grid.removeEventListener("click", this.disableClick)
 
         this.grid.innerHTML = "";
+        this.checkboxes = [];
     }
 
 
