@@ -101,7 +101,8 @@ class LifeView {
         event.preventDefault();
     }
 
-    dispose() {
+    dispose() {        
+        clearInterval(this.interval);
         this.grid.removeEventListener("mousedown", this.handleMouseDown);
         this.grid.removeEventListener("mouseup", this.handleMouseUp);
         this.grid.removeEventListener("mouseover", this.handleMouseOver);
@@ -235,7 +236,7 @@ class LifeView {
     }
 
     resize(width, height) {
-        const currentGrid = cloneArray(this.checkboxes);
+        const currentGrid = cloneArray(this.gridArray);
 
         this.dispose();
         
@@ -245,7 +246,7 @@ class LifeView {
         
         for(let row = 0; row < this.height; row++) {
             for (let column = 0; column < this.width; column++) {
-                this.checkboxes[row][column].checked = Boolean(currentGrid[row]?.[column]?.checked);
+                this.checkboxes[row][column].checked = Boolean(currentGrid[row]?.[column]);
             }
         }
 
