@@ -100,4 +100,5 @@ body {
     align-items: center;
     gap: 8px;
     margin: 8px;
+    flex: 1;
 }
