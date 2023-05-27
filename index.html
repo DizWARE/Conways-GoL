@@ -43,10 +43,9 @@
     <div class="footer">
         <div class="grid-size-controls">
             <label for="columns">Columns</label>
-            <input id="columns" class="form-control width-control" type="number" value="30">
+            <input id="columns" class="form-control width-control" type="number" value="30" min="0" max="500">
             <label for="rows">Rows</label>
-            <input id="rows" class="form-control height-control" type="number" value="30">
-            <button type="button" class="btn btn-outline-primary resize">Resize</button>
+            <input id="rows" class="form-control height-control" type="number" value="30" min="0" max="500">
         </div>
 
         <div class="button-container">
@@ -67,7 +66,6 @@
                 clear: $("button.clear"),
                 next: $("button.next"),
                 reset: $("button.reset"),
-                resize: $("button.resize"),
             };
 
             const inputs = {
@@ -80,23 +78,19 @@
 
             const speedLabel = $("label.speed");
 
-            buttons.resize.addEventListener("click", () => {
-                if (view.autoplay) {
-                    buttons.next.textContent = "Start";
-                    speedLabel.textContent = `${(view.iterationSpeed / 1000).toFixed(2)} seconds(s) / iteration`;
-                }
+            inputs.width.addEventListener("change", () => {     
+                const width = inputs.width.value = Math.max(0, Math.min(inputs.width.value, 500));
+                const height = inputs.height.value = Math.max(0, Math.min(inputs.height.value, 500));
 
-                view.dispose();
-                delete view;
+                view.resize(width, height);
+            });
 
-                view = new LifeView($("div.grid"), inputs.width.value, inputs.height.value);
-
-                // TODO - Currently, the code is all over the place with pulling state from DOM. 
-                // Should unify the different usages so that its consistent.
-                view.iterationSpeed = 1000 - inputs.iterationSpeed.value;
-                view.autoplay = inputs.autoplay.checked;
-                view.debug = inputs.autoplay.debug;
-            })
+            inputs.height.addEventListener("change", () => { 
+                const width = inputs.width.value = Math.max(0, Math.min(inputs.width.value, 500));
+                const height = inputs.height.value = Math.max(0, Math.min(inputs.height.value, 500));
+                
+                view.resize(width, height);
+            });
 
             buttons.next.addEventListener("click", () => {
                 const isRunning = Boolean(view.game);

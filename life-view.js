@@ -102,8 +102,6 @@ class LifeView {
     }
 
     dispose() {
-        this.stop();
-        this.reset();
         this.grid.removeEventListener("mousedown", this.handleMouseDown);
         this.grid.removeEventListener("mouseup", this.handleMouseUp);
         this.grid.removeEventListener("mouseover", this.handleMouseOver);
@@ -233,6 +231,26 @@ class LifeView {
             for (let column = 0; column < this.width; column++) {
                 this.checkboxes[row][column].checked = Boolean(resetState[row][column]);
             }
+        }
+    }
+
+    resize(width, height) {
+        const currentGrid = cloneArray(this.checkboxes);
+
+        this.dispose();
+        
+        this.width = width;
+        this.height = height;
+        this.createGrid();
+        
+        for(let row = 0; row < this.height; row++) {
+            for (let column = 0; column < this.width; column++) {
+                this.checkboxes[row][column].checked = Boolean(currentGrid[row]?.[column]?.checked);
+            }
+        }
+
+        if (this.game) {
+            this.play();
         }
     }
 

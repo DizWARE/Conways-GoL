@@ -13,22 +13,22 @@ class Life {
         this.debug = debug;
     }
 
-    aliveNeighbors(grid, cellColumn, cellRow) {
+    aliveNeighbors(grid, cellRow, cellColumn) {
         let aliveCount = 0;
 
-        for (let neighborColumn = cellColumn - 1; neighborColumn < cellColumn + 2; neighborColumn++) {
+        for (let neighborRow = cellRow - 1; neighborRow < cellRow + 2; neighborRow++) {
             // Skip out of bound neighbors
-            if (neighborColumn < 0 || neighborColumn >= this.width) continue;
+            if (neighborRow < 0 || neighborRow >= this.height) continue;
 
-            for (let neighborRow = cellRow - 1; neighborRow < cellRow + 2; neighborRow++) {
+            for (let neighborColumn = cellColumn - 1; neighborColumn < cellColumn + 2; neighborColumn++) {
                 // Skip out of bound neighbors
-                if (neighborRow < 0 || neighborRow >= this.width) continue;
+                if (neighborColumn < 0 || neighborColumn >= this.width) continue;
                 // Skip the location of our cell.
-                if (neighborColumn === cellColumn && neighborRow === cellRow) continue;
+                if (neighborRow === cellRow && neighborColumn === cellColumn) continue;
 
                 // Is there a way that we can make the edges wrap(see demonstaration)
 
-                const neighborToCheck = grid[neighborColumn][neighborRow];
+                const neighborToCheck = grid[neighborRow][neighborColumn];
                 aliveCount += neighborToCheck;
             }
         }
@@ -40,7 +40,7 @@ class Life {
 
         for (let row = 0; row < this.height; row++) {
             for (let column = 0; column < this.width; column++) {
-                const aliveCount = this.aliveNeighbors(this.prevGrid, column, row);
+                const aliveCount = this.aliveNeighbors(this.prevGrid, row, column);
 
                 // RULES OF GAME OF LIFE
                 // 1) A single cell will become alive if 3 neigbors are alive
