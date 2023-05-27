@@ -245,9 +245,11 @@ class LifeView {
         this.height = height;
         this.createGrid();
         
-        for(let row = 0; row < this.height; row++) {
-            for (let column = 0; column < this.width; column++) {
-                this.checkboxes[row][column].checked = Boolean(currentGrid[row]?.[column]);
+        for(let row = 0; row < currentGrid.length; row++) {
+            for (let column = 0; column < currentGrid[0].length; column++) {
+                if (Boolean(currentGrid[row]?.[column])) {
+                    this.checkboxes[row % this.height][column % this.width].checked = Boolean(currentGrid[row]?.[column]);
+                }
             }
         }
 
