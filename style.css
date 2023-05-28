@@ -23,7 +23,9 @@ body {
     margin-bottom: 8px;     
     margin-left: auto;
     margin-right: auto;
+    width: fit-content;
 }
+
 .footer {
     display: flex;
     flex-direction: row;
@@ -41,6 +43,35 @@ body {
     justify-content: center;
     align-items: center;
     gap: 16px;
+}
+
+.toggle-settings-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.size-settings-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.size-settings-container h5 {
+    margin-bottom: 0;
+    margin-left: auto;
+}
+
+.footer .button-container {
+    margin-left: auto;
+}
+
+.github-link {
+    display: flex;
+    justify-content: center;
 }
 
 .speed-slider {    
@@ -61,7 +92,7 @@ body {
     flex-wrap: nowrap;
     align-items: center;
     overflow: auto;
-    max-height: calc(100% - 200px);
+    max-height: calc(100% - 220px);
 }
 .grid .row {
     display: flex;
@@ -99,6 +130,4 @@ body {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin: 8px;
-    flex: 1;
 }
