@@ -1,6 +1,8 @@
 # Conways-GoL
 
-A simple, static website version of Conway'0s Game of Life.
+A simple, static website version of Conway's Game of Life.
+
+See it in action here: https://io.github.dizware.dev
 
 Originally written along side a Pluralsight video and left to decay over time.
 
