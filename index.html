@@ -16,7 +16,7 @@
     <div class="header">
         <h1>Conway's Game of Life</h1>
 
-        <div class="button-container">
+        <div class="toggle-settings-container">
             <div class="form-check form-switch">
                 <label for="autoplay">Autoplay</label>
                 <input checked type="checkbox" class="form-check-input autoplay" role="switch" id="autoplay" />
@@ -34,25 +34,34 @@
             </div>
 
         </div>
-        <h5>Iteration: <span class="iteration-count">0</span></h5>
+        <div class="size-settings-container">            
+            <div class="grid-size-controls">
+                <label for="columns">Columns</label>
+                <input id="columns" class="form-control width-control" type="number" value="30" min="0" max="500">
+                <label for="rows">Rows</label>
+                <input id="rows" class="form-control height-control" type="number" value="30" min="0" max="500">
+            </div>
+            
+            <h5>Iteration: <span class="iteration-count">0</span></h5>
+        </div>
 
     </div>
 
     <div class="grid"></div>
 
     <div class="footer">
-        <div class="grid-size-controls">
-            <label for="columns">Columns</label>
-            <input id="columns" class="form-control width-control" type="number" value="30" min="0" max="500">
-            <label for="rows">Rows</label>
-            <input id="rows" class="form-control height-control" type="number" value="30" min="0" max="500">
-        </div>
-
         <div class="button-container">
             <button type="button" class="btn btn-secondary clear">Clear</button>
             <button type="button" class="btn btn-outline-danger reset">Reset</button>
             <button type="button" class="btn btn-primary next">Start</button>
         </div>
+    </div>
+    
+    <div class="github-link">
+        <a href="https://github.com/DizWARE/Conways-GoL" class="icon-link">
+            <svg width="25" height="25" aria-hidden="true"><image width="25" height="25" href="github-mark.svg"></image></svg>
+            Find the code here on GitHub
+        </a>
     </div>
 
     <script src="util.js"></script>
