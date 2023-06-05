@@ -17,18 +17,16 @@ class Life {
         let aliveCount = 0;
 
         for (let neighborRow = cellRow - 1; neighborRow < cellRow + 2; neighborRow++) {
-            // Skip out of bound neighbors
-            if (neighborRow < 0 || neighborRow >= this.height) continue;
-
             for (let neighborColumn = cellColumn - 1; neighborColumn < cellColumn + 2; neighborColumn++) {
-                // Skip out of bound neighbors
-                if (neighborColumn < 0 || neighborColumn >= this.width) continue;
                 // Skip the location of our cell.
                 if (neighborRow === cellRow && neighborColumn === cellColumn) continue;
 
                 // Is there a way that we can make the edges wrap(see demonstaration)
 
-                const neighborToCheck = grid[neighborRow][neighborColumn];
+                let rowToUse = neighborRow < 0 ? this.width - 1 : neighborRow >= this.width ? 0 : neighborRow;
+                let columnToUse = neighborColumn < 0 ? this.height - 1 : neighborColumn >= this.height ? 0 : neighborColumn;
+
+                const neighborToCheck = grid[rowToUse][columnToUse];
                 aliveCount += neighborToCheck;
             }
         }
@@ -48,7 +46,13 @@ class Life {
 
                 // Using what we know lets program what changes to the cell at column and row need to be.
                 switch (aliveCount) {
+                    case 3:
+                        this.grid[row][column] = 1;
+                        break;
+                    case 2:
+                        break;
                     default:
+                        this.grid[row][column] = 0;
                         break;
                 }
             }

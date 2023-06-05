@@ -34,14 +34,14 @@
             </div>
 
         </div>
-        <div class="size-settings-container">            
+        <div class="size-settings-container">
             <div class="grid-size-controls">
                 <label for="columns">Columns</label>
                 <input id="columns" class="form-control width-control" type="number" value="30" min="0" max="500">
                 <label for="rows">Rows</label>
                 <input id="rows" class="form-control height-control" type="number" value="30" min="0" max="500">
             </div>
-            
+
             <h5>Iteration: <span class="iteration-count">0</span></h5>
         </div>
 
@@ -56,17 +56,19 @@
             <button type="button" class="btn btn-primary next">Start</button>
         </div>
     </div>
-    
+
     <div class="github-link">
         <a href="https://github.com/DizWARE/Conways-GoL" class="icon-link">
-            <svg width="25" height="25" aria-hidden="true"><image width="25" height="25" href="github-mark.svg"></image></svg>
+            <svg width="25" height="25" aria-hidden="true">
+                <image width="25" height="25" href="github-mark.svg"></image>
+            </svg>
             Find the code here on GitHub
         </a>
     </div>
 
     <script src="util.js"></script>
     <script src="life-view.js"></script>
-    <script src="good-life.js"></script>
+    <script src="life.js"></script>
     <script>
         const view = new LifeView($("div.grid"), 30, 30);
 
@@ -87,17 +89,17 @@
 
             const speedLabel = $("label.speed");
 
-            inputs.width.addEventListener("change", () => {     
+            inputs.width.addEventListener("change", () => {
                 const width = inputs.width.value = Math.max(0, Math.min(inputs.width.value, 500));
                 const height = inputs.height.value = Math.max(0, Math.min(inputs.height.value, 500));
 
                 view.resize(width, height);
             });
 
-            inputs.height.addEventListener("change", () => { 
+            inputs.height.addEventListener("change", () => {
                 const width = inputs.width.value = Math.max(0, Math.min(inputs.width.value, 500));
                 const height = inputs.height.value = Math.max(0, Math.min(inputs.height.value, 500));
-                
+
                 view.resize(width, height);
             });
 
