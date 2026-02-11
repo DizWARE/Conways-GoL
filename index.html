@@ -13,6 +13,23 @@
 </head>
 
 <body>
+    <div class="rules-panel" id="rulesPanel">
+        <button type="button" class="rules-toggle" id="rulesToggle" aria-label="Toggle rules panel">
+            <span class="rules-toggle-icon" aria-hidden="true">‹</span>
+        </button>
+        <div class="rules-content">
+            <h2>Rules</h2>
+            <p>Conway's Game of Life is a cellular automaton where each cell evolves based on its neighbors.</p>
+            <ul>
+                <li><strong>Underpopulation:</strong> A live cell with fewer than 2 neighbors dies.</li>
+                <li><strong>Survival:</strong> A live cell with 2 or 3 neighbors lives on.</li>
+                <li><strong>Overpopulation:</strong> A live cell with more than 3 neighbors dies.</li>
+                <li><strong>Reproduction:</strong> A dead cell with exactly 3 neighbors becomes alive.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
     <div class="header">
         <h1>Conway's Game of Life</h1>
 
@@ -64,6 +81,7 @@
             </svg>
             Find the code here on GitHub
         </a>
+    </div>
     </div>
 
     <script src="util.js"></script>
@@ -145,6 +163,17 @@
                     view.next();
                     view.previousStartingState = previousStartingState;
                 }
+            });
+        })();
+
+        (function () {
+            const panel = document.getElementById("rulesPanel");
+            const toggle = document.getElementById("rulesToggle");
+
+            toggle.addEventListener("click", () => {
+                panel.classList.toggle("collapsed");
+                const isCollapsed = panel.classList.contains("collapsed");
+                toggle.setAttribute("aria-label", isCollapsed ? "Expand rules panel" : "Collapse rules panel");
             });
         })();
     </script>
